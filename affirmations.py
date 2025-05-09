@@ -1,39 +1,57 @@
 import random
 
-affirmation_bank = {
+mood_affirmations = {
     "happy": [
-        "Keep spreading your light—it’s contagious!",
-        "Your joy uplifts everyone around you!"
+        "Keep shining, your light is contagious!",
+        "Joy is your superpower.",
+        "You’re doing amazing, keep smiling!"
     ],
     "sad": [
-        "You are stronger than your sadness.",
+        "This too shall pass.",
+        "You are stronger than you think.",
         "Even the darkest night will end and the sun will rise."
     ],
-    "angry": [
-        "Breathe. You are in control of your emotions.",
-        "Let go and allow peace to flow in."
-    ],
     "anxious": [
-        "You are safe, calm, and grounded.",
-        "One step at a time—you’ve got this."
+        "Breathe in peace, breathe out stress.",
+        "You are safe, you are calm.",
+        "Everything is going to be okay."
     ],
-    "motivated": [
-        "Your passion fuels your greatness!",
-        "You're unstoppable—keep pushing forward!"
+    "angry": [
+        "Let go of what you can't control.",
+        "Peace begins with you.",
+        "Your calm mind is your strength."
     ],
     "tired": [
-        "Rest is productive. Recharge and shine again.",
-        "Take a pause—you deserve it."
+        "Rest is productive.",
+        "You deserve to take it slow today.",
+        "Recharging is essential, not optional."
     ],
-    "stressed": [
-        "You are doing your best, and that’s enough.",
-        "Peace is within reach—just breathe."
-    ],
-    "neutral": [
-        "Every day is a fresh start.",
-        "Believe in your potential—amazing things await."
+    "default": [
+        "You are loved. You are enough.",
+        "Every day is a new beginning.",
+        "Believe in your brilliance."
     ]
 }
 
+emojis = {
+    "happy": "😊",
+    "sad": "😢",
+    "anxious": "😰",
+    "angry": "😡",
+    "tired": "😴",
+    "default": "🌟"
+}
+
 def get_affirmation(emotion):
-    return random.choice(affirmation_bank.get(emotion, affirmation_bank["neutral"]))
+    for mood in mood_affirmations:
+        if mood in emotion:
+            return {
+                "mood": mood,
+                "affirmation": random.choice(mood_affirmations[mood]),
+                "emoji": emojis[mood]
+            }
+    return {
+        "mood": "default",
+        "affirmation": random.choice(mood_affirmations["default"]),
+        "emoji": emojis["default"]
+    }

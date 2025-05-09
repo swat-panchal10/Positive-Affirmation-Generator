@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Positive Pulse</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body id="body">
+  <div class="container">
+    <h1>🌈 Positive Pulse</h1>
+    <p>Describe how you're feeling:</p>
+    <input type="text" id="emotionInput" placeholder="e.g. anxious, happy..." />
+    <button onclick="submitEmotion()">Get Affirmation</button>
+    <div class="result" id="resultBox">
+      <span id="emoji"></span>
+      <p id="affirmation"></p>
+    </div>
+  </div>
+
+  <script>
+    function moodToGradient(mood) {
+      const gradients = {
+        happy: "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
+        sad: "linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)",
+        anxious: "linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)",
+        angry: "linear-gradient(135deg, #f77062 0%, #fe5196 100%)",
+        tired: "linear-gradient(135deg, #d3cce3 0%, #e9e4f0 100%)",
+        default: "linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%)"
+      };
+      return gradients[mood] || gradients.default;
+    }
+
+    async function submitEmotion() {
+      const emotion = document.getElementById("emotionInput").value;
+      const res = await fetch("/get-affirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emotion })
+      });
+      const data = await res.json();
+      document.getElementById("affirmation").textContent = data.affirmation;
+      document.getElementById("emoji").textContent = data.emoji;
+      document.getElementById("body").style.background = moodToGradient(data.mood);
+    }
+  </script>
+</body>
+</html>
